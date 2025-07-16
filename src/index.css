@@ -12,3 +12,68 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.main-container {
+    background-color: #122620;
+    width: 900px;
+    display: flex;
+    margin: 0 auto;
+}
+.menu-container {
+    background-color: #f4ebd0;
+    width: 20%;
+    flex-grow: 1;
+    border: 1px solid white;
+    height: 100vh;
+}
+.recipes-container {
+    width: 78%;
+    /* flex-grow: 10; */
+    border: 1px solid white;
+}
+.home-btn,
+.menu-btn {
+    background-color: #d6ad60;
+    display: block;
+    margin-bottom: 1rem;
+    color: #122620;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    gap: 0.3rem;
+    width: 100%;
+    cursor: pointer;
+}
+.menu-container span {
+    font-size: 1.2rem;
+}
+.home-btn img {
+    /* background-color: #fff; */
+}
+.search-filter-container {
+    margin-bottom: 1rem;
+}
+.recipe-cards-container {
+    border: 1px solid white;
+    padding: 0.5rem;
+    display: flex;
+    align-content: baseline;
+    /* justify-content: center; */
+    gap: 0.5rem;
+    height: 89vh;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+.card-recipe {
+    width: 150px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+}
+.card-recipe-img {
+    width: 100%;
+    /* height: 60%; */
+}
+.card-recipe-details {
+    background-color: #b68d40;
+}

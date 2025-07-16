@@ -39,7 +39,44 @@ function App() {
     return (
         <>
             <button onClick={getRecipe}>Populate Recipe</button>
+            <div className="main-container">
+                {/*  */}
+                <div className="menu-container">
+                    <h1 style={{ color: "#b68d40" }}>Food Recipes</h1>
+                    <button className="home-btn">
+                        <img src="/assets/home.svg" alt="" />{" "}
+                        <span>Dashboard </span>
+                    </button>
+                    <button className="menu-btn">
+                        <img src="/assets/menu.svg" alt="" />
+                    </button>
+                </div>
+
+                {/*  */}
+                <div className="recipes-container">
+                    <h1>Recipe Cards</h1>
+                    <div className="search-filter-container">
+                        <input type="text" placeholder="search-recipe" />
+                    </div>
+                    <div className="recipe-cards-container">
+                        {recipe.map((card, index) => (
+                            <Card key={index} card={card} />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </>
+    );
+}
+
+function Card({ card }) {
+    return (
+        <div className="card-recipe">
+            <img src={card.image} alt="" className="card-recipe-img" />
+            <div className="card-recipe-details">
+                <p className="card-title">{card.title}</p>
+            </div>
+        </div>
     );
 }
 
