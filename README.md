@@ -16,21 +16,21 @@ The following **required** functionality is completed:
 -   [x] **`useEffect` React hook and `async`/`await` are used**
 -   [x] **The app dashboard includes at least three summary statistics about the data**
     -   The app dashboard includes at least three summary statistics about the data, such as:
-        -   _insert details here_
+        -   _Gluten free, Vegan friendly, step by step instructions_
 -   [x] **A search bar allows the user to search for an item in the fetched data**
     -   The search bar **correctly** filters items in the list, only displaying items matching the search query
     -   The list of results dynamically updates as the user types into the search bar
--   [ ] **An additional filter allows the user to restrict displayed items by specified categories**
+-   [x] **An additional filter allows the user to restrict displayed items by specified categories**
     -   The filter restricts items in the list using a **different attribute** than the search bar
     -   The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
     -   The dashboard list dynamically updates as the user adjusts the filter
 
 The following **optional** features are implemented:
 
--   [ ] Multiple filters can be applied simultaneously
--   [ ] Filters use different input types
+-   [x] Multiple filters can be applied simultaneously
+-   [x] Filters use different input types
     -   e.g., as a text input, a dropdown or radio selection, and/or a slider
--   [ ] The user can enter specific bounds for filter values
+-   [x] The user can enter specific bounds for filter values
 
 The following **additional** features are implemented:
 
@@ -40,24 +40,19 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='/recipe-walkthrough-2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
 
-GIF created with ...
-
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+GIF created with screenToGif
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+One of the challenges I experience whilst building the was implement the slider filter.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2025] [Stanley Delva J]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
