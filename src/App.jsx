@@ -55,7 +55,7 @@ function App() {
 
     function displayRecipe(id) {
         findRecipe(id);
-
+        console.log(currentRecipe);
         setToggleRecipes(!toggleRecipes);
     }
     function handleToggle() {
@@ -175,6 +175,8 @@ function CardDetails({ details, handleToggle }) {
                 <img src={details.image} alt="" className="card-details-img" />
                 <h2>{details.title}</h2>
                 <div className="instruction-div">
+                    <h3>Vegan friendly: {details.vegan ? "Yes" : "No"}</h3>
+                    <h3>Gluten free: {details.gluten ? "Yes" : "No"}</h3>
                     <h3>Instructions:</h3>
                     {details.analyzedInstructions[0].steps.map((item) => {
                         return (
