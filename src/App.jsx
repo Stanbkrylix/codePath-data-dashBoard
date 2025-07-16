@@ -8,6 +8,8 @@ const URL2 = `https://api.spoonacular.com/recipes/${716429}/information?apiKey=$
 
 function App() {
     const [recipe, setRecipes] = useState([]);
+    const [originalRecipe, setOriginalRecipe] = useState([]);
+    const [filterSearchInput, setFilterSearchInput] = useState("");
 
     function getRecipe() {
         async function fetchData() {
@@ -15,6 +17,7 @@ function App() {
                 const response = await fetch(URL);
                 const data = await response.json();
                 setRecipes(data.results);
+                setOriginalRecipe(data.results);
                 console.log(recipe);
             } catch (error) {
                 console.log("ERROR", error);
@@ -43,12 +46,18 @@ function App() {
                 {/*  */}
                 <div className="menu-container">
                     <h1 style={{ color: "#b68d40" }}>Food Recipes</h1>
-                    <button className="home-btn">
+                    <button
+                        className="home-btn"
+                        onClick={() => {
+                            console.log(recipe, originalRecipe);
+                        }}
+                    >
                         <img src="/assets/home.svg" alt="" />{" "}
                         <span>Dashboard </span>
                     </button>
                     <button className="menu-btn">
-                        <img src="/assets/menu.svg" alt="" />
+                        <img src="/assets/search.svg" alt="" />
+                        <span> Search </span>
                     </button>
                 </div>
 
@@ -74,7 +83,9 @@ function Card({ card }) {
         <div className="card-recipe">
             <img src={card.image} alt="" className="card-recipe-img" />
             <div className="card-recipe-details">
+                <p className="recipe">Recipe</p>
                 <p className="card-title">{card.title}</p>
+                <button className="card-info">Details</button>
             </div>
         </div>
     );
