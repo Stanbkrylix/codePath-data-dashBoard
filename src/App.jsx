@@ -4,7 +4,6 @@ import "./App.css";
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 const URL = `https://api.spoonacular.com/recipes/complexSearch?&number=20&apiKey=${ACCESS_KEY}`;
-const URL2 = `https://api.spoonacular.com/recipes/${716429}/information?apiKey=${ACCESS_KEY}`;
 
 function App() {
     const [recipe, setRecipes] = useState([]);
