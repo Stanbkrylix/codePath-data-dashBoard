@@ -12,6 +12,8 @@ function App() {
     const [filterSearchInput, setFilterSearchInput] = useState("");
     const [sliderValue, setSliderValue] = useState(0);
     const [showSearch, setShowSearch] = useState(true);
+    const [currentRecipe, setCurrentRecipe] = useState(null);
+    const [toggleRecipes, setToggleRecipes] = useState(true);
 
     function getRecipe() {
         async function fetchData() {
@@ -64,11 +66,33 @@ function App() {
         setRecipes(filtered);
     }
 
+    async function findRecipe(id) {
+        const URL2 = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${ACCESS_KEY}`;
+
+        try {
+            const response = await fetch(URL2);
+            const recipeData = await response.json();
+            setCurrentRecipe(recipeData);
+            //   console.log(recipeData)
+        } catch (error) {
+            console.log("ERROR, " + error);
+        }
+    }
+
+    function displayRecipe(id) {
+        console.log(id);
+        findRecipe(id);
+        console.log(currentRecipe);
+        setToggleRecipes(!toggleRecipes);
+        // const
+    }
     return (
         <>
             <button onClick={getRecipe}>Populate Recipe</button>
             <div className="main-container">
                 {/*  */}
+                {/* {toggleRecipes? ():(<p>Details</p>)} */}
+
                 <div className="menu-container">
                     <h1 style={{ color: "#b68d40" }}>Food Recipes</h1>
                     <button
@@ -94,7 +118,8 @@ function App() {
                     </button>
                 </div>
 
-                {/*  */}
+                {}
+
                 <div className="recipes-container">
                     <h1>Recipe Menu</h1>
                     {showSearch && (
@@ -126,25 +151,55 @@ function App() {
                             </button>
                         </div>
                     )}
-                    <div className="recipe-cards-container">
-                        {recipe.map((card, index) => (
-                            <Card key={index} card={card} />
-                        ))}
-                    </div>
+                    {toggleRecipes ? (
+                        <div className="recipe-cards-container">
+                            {recipe.map((card) => (
+                                <Card
+                                    key={card.id}
+                                    card={card}
+                                    displayRecipe={displayRecipe}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Recipe details</p>
+                    )}
                 </div>
             </div>
         </>
     );
 }
 
-function Card({ card }) {
+function Card({ card, displayRecipe }) {
     return (
         <div className="card-recipe">
             <img src={card.image} alt="" className="card-recipe-img" />
             <div className="card-recipe-details">
                 <p className="recipe">Recipe</p>
                 <p className="card-title">{card.title}</p>
-                <button className="card-info">Details</button>
+                <button
+                    className="card-info"
+                    onClick={() => displayRecipe(card.id)}
+                >
+                    Details
+                </button>
+            </div>
+        </div>
+    );
+}
+
+function CardDetails({ details }) {
+    return (
+        <div className="card-details">
+            <img src={details.image} alt="" className="card-details-img" />
+            <div className="instruction-div">
+                {details.analyzedInstructions[0].steps.map((item) => {
+                    return (
+                        <p key={item.number}>
+                            step {item.number}: {item.step}
+                        </p>
+                    );
+                })}
             </div>
         </div>
     );
