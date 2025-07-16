@@ -11,6 +11,7 @@ function App() {
     const [originalRecipe, setOriginalRecipe] = useState([]);
     const [filterSearchInput, setFilterSearchInput] = useState("");
     const [sliderValue, setSliderValue] = useState(0);
+    const [showSearch, setShowSearch] = useState(true);
 
     function getRecipe() {
         async function fetchData() {
@@ -40,7 +41,19 @@ function App() {
         // }
         // fetchData();
     }, []);
-    useEffect(() => {
+    // useEffect(() => {
+    //     const filtered = originalRecipe
+    //         .filter((item) =>
+    //             item.title
+    //                 .toLowerCase()
+    //                 .includes(filterSearchInput.toLowerCase())
+    //         )
+    //         .slice(0, sliderValue || originalRecipe.length);
+    //     setRecipes(filtered);
+    // }, [filterSearchInput, originalRecipe, sliderValue]);
+
+    function handleSearch() {
+        // if (!filterSearchInput) return;
         const filtered = originalRecipe
             .filter((item) =>
                 item.title
@@ -49,7 +62,7 @@ function App() {
             )
             .slice(0, sliderValue || originalRecipe.length);
         setRecipes(filtered);
-    }, [filterSearchInput, originalRecipe, sliderValue]);
+    }
 
     return (
         <>
@@ -68,7 +81,14 @@ function App() {
                         <img src="/assets/home.svg" alt="" />{" "}
                         <span>Dashboard </span>
                     </button>
-                    <button className="menu-btn">
+                    <button
+                        className="menu-btn"
+                        onClick={() => {
+                            setShowSearch(!showSearch);
+                            setFilterSearchInput("");
+                            setSliderValue(originalRecipe.length);
+                        }}
+                    >
                         <img src="/assets/search.svg" alt="" />
                         <span> Search </span>
                     </button>
@@ -76,28 +96,36 @@ function App() {
 
                 {/*  */}
                 <div className="recipes-container">
-                    <h1>Recipe Cards</h1>
-                    <div className="search-filter-container">
-                        <input
-                            type="text"
-                            value={filterSearchInput}
-                            onChange={(e) =>
-                                setFilterSearchInput(e.target.value)
-                            }
-                            placeholder="search-recipe"
-                        />
-                        <input
-                            type="range"
-                            className="slider"
-                            min="0"
-                            max={originalRecipe.length}
-                            value={sliderValue || originalRecipe.length}
-                            onChange={(e) => {
-                                setSliderValue(e.target.value);
-                                // handleSliderChange();
-                            }}
-                        />
-                    </div>
+                    <h1>Recipe Menu</h1>
+                    {showSearch && (
+                        <div className="search-filter-container">
+                            <input
+                                type="text"
+                                value={filterSearchInput}
+                                onChange={(e) =>
+                                    setFilterSearchInput(e.target.value)
+                                }
+                                placeholder="search-recipe"
+                                className="recipe-input"
+                            />
+                            <input
+                                type="range"
+                                className="slider"
+                                min="0"
+                                max={originalRecipe.length}
+                                value={sliderValue || originalRecipe.length}
+                                onChange={(e) => {
+                                    setSliderValue(e.target.value);
+                                }}
+                            />
+                            <button
+                                className="search-btn"
+                                onClick={handleSearch}
+                            >
+                                Search
+                            </button>
+                        </div>
+                    )}
                     <div className="recipe-cards-container">
                         {recipe.map((card, index) => (
                             <Card key={index} card={card} />

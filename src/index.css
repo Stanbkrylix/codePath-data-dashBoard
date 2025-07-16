@@ -51,6 +51,26 @@
 }
 .search-filter-container {
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid #f4ebd0;
+    padding: 1rem;
+}
+.search-btn,
+.recipe-input {
+    background-color: #d6ad60;
+    color: #122620;
+    border: 1px solid #122620;
+    padding: 0.3rem;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+}
+.recipe-input:focus {
+    outline: none;
+}
+.search-btn {
+    cursor: pointer;
 }
 .recipe-cards-container {
     border: 1px solid white;
