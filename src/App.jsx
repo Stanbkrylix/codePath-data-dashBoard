@@ -10,6 +10,7 @@ function App() {
     const [recipe, setRecipes] = useState([]);
     const [originalRecipe, setOriginalRecipe] = useState([]);
     const [filterSearchInput, setFilterSearchInput] = useState("");
+    const [sliderValue, setSliderValue] = useState(0);
 
     function getRecipe() {
         async function fetchData() {
@@ -18,6 +19,7 @@ function App() {
                 const data = await response.json();
                 setRecipes(data.results);
                 setOriginalRecipe(data.results);
+                setSliderValue(data.results.length);
                 console.log(recipe);
             } catch (error) {
                 console.log("ERROR", error);
@@ -38,6 +40,16 @@ function App() {
         // }
         // fetchData();
     }, []);
+    useEffect(() => {
+        const filtered = originalRecipe
+            .filter((item) =>
+                item.title
+                    .toLowerCase()
+                    .includes(filterSearchInput.toLowerCase())
+            )
+            .slice(0, sliderValue || originalRecipe.length);
+        setRecipes(filtered);
+    }, [filterSearchInput, originalRecipe, sliderValue]);
 
     return (
         <>
@@ -50,6 +62,7 @@ function App() {
                         className="home-btn"
                         onClick={() => {
                             console.log(recipe, originalRecipe);
+                            setSliderValue(recipe.length);
                         }}
                     >
                         <img src="/assets/home.svg" alt="" />{" "}
@@ -65,7 +78,25 @@ function App() {
                 <div className="recipes-container">
                     <h1>Recipe Cards</h1>
                     <div className="search-filter-container">
-                        <input type="text" placeholder="search-recipe" />
+                        <input
+                            type="text"
+                            value={filterSearchInput}
+                            onChange={(e) =>
+                                setFilterSearchInput(e.target.value)
+                            }
+                            placeholder="search-recipe"
+                        />
+                        <input
+                            type="range"
+                            className="slider"
+                            min="0"
+                            max={originalRecipe.length}
+                            value={sliderValue || originalRecipe.length}
+                            onChange={(e) => {
+                                setSliderValue(e.target.value);
+                                // handleSliderChange();
+                            }}
+                        />
                     </div>
                     <div className="recipe-cards-container">
                         {recipe.map((card, index) => (
