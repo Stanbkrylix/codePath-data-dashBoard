@@ -15,7 +15,7 @@ function App() {
     const [currentRecipe, setCurrentRecipe] = useState(null);
     const [toggleRecipes, setToggleRecipes] = useState(true);
 
-    function getRecipe() {
+    useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch(URL);
@@ -23,39 +23,14 @@ function App() {
                 setRecipes(data.results);
                 setOriginalRecipe(data.results);
                 setSliderValue(data.results.length);
-                console.log(recipe);
             } catch (error) {
                 console.log("ERROR", error);
             }
         }
         fetchData();
-    }
-    useEffect(() => {
-        // async function fetchData() {
-        //     try {
-        //         const response = await fetch(URL);
-        //         const data = await response.json();
-        //         setRecipes(data.results);
-        //         console.log(recipe);
-        //     } catch (error) {
-        //         console.log("ERROR: ", error);
-        //     }
-        // }
-        // fetchData();
     }, []);
-    // useEffect(() => {
-    //     const filtered = originalRecipe
-    //         .filter((item) =>
-    //             item.title
-    //                 .toLowerCase()
-    //                 .includes(filterSearchInput.toLowerCase())
-    //         )
-    //         .slice(0, sliderValue || originalRecipe.length);
-    //     setRecipes(filtered);
-    // }, [filterSearchInput, originalRecipe, sliderValue]);
 
     function handleSearch() {
-        // if (!filterSearchInput) return;
         const filtered = originalRecipe
             .filter((item) =>
                 item.title
@@ -73,33 +48,28 @@ function App() {
             const response = await fetch(URL2);
             const recipeData = await response.json();
             setCurrentRecipe(recipeData);
-            //   console.log(recipeData)
         } catch (error) {
             console.log("ERROR, " + error);
         }
     }
 
     function displayRecipe(id) {
-        console.log(id);
         findRecipe(id);
-        console.log(currentRecipe);
+
         setToggleRecipes(!toggleRecipes);
-        // const
+    }
+    function handleToggle() {
+        setToggleRecipes(!toggleRecipes);
     }
     return (
         <>
-            <button onClick={getRecipe}>Populate Recipe</button>
             <div className="main-container">
-                {/*  */}
-                {/* {toggleRecipes? ():(<p>Details</p>)} */}
-
                 <div className="menu-container">
                     <h1 style={{ color: "#b68d40" }}>Food Recipes</h1>
                     <button
                         className="home-btn"
                         onClick={() => {
-                            console.log(recipe, originalRecipe);
-                            setSliderValue(recipe.length);
+                            setToggleRecipes((prev) => (prev = true));
                         }}
                     >
                         <img src="/assets/home.svg" alt="" />{" "}
@@ -162,7 +132,10 @@ function App() {
                             ))}
                         </div>
                     ) : (
-                        <p>Recipe details</p>
+                        <CardDetails
+                            details={currentRecipe}
+                            handleToggle={handleToggle}
+                        />
                     )}
                 </div>
             </div>
@@ -188,20 +161,31 @@ function Card({ card, displayRecipe }) {
     );
 }
 
-function CardDetails({ details }) {
+function CardDetails({ details, handleToggle }) {
+    if (!details) return;
     return (
-        <div className="card-details">
-            <img src={details.image} alt="" className="card-details-img" />
-            <div className="instruction-div">
-                {details.analyzedInstructions[0].steps.map((item) => {
-                    return (
-                        <p key={item.number}>
-                            step {item.number}: {item.step}
-                        </p>
-                    );
-                })}
+        <>
+            <button
+                style={{ marginBottom: "1rem", cursor: "pointer" }}
+                onClick={handleToggle}
+            >
+                ❌
+            </button>
+            <div className="card-details">
+                <img src={details.image} alt="" className="card-details-img" />
+                <h2>{details.title}</h2>
+                <div className="instruction-div">
+                    <h3>Instructions:</h3>
+                    {details.analyzedInstructions[0].steps.map((item) => {
+                        return (
+                            <p key={item.number}>
+                                step {item.number}: {item.step}
+                            </p>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

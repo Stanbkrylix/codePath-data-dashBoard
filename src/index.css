@@ -121,4 +121,10 @@
     color: #122620;
 }
 
-/* .card-details */
+.card-details {
+    width: 100%;
+}
+.card-details-img {
+    width: 250px;
+    height: 250px;
+}
