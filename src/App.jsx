@@ -14,21 +14,33 @@ function App() {
     const [currentRecipe, setCurrentRecipe] = useState(null);
     const [toggleRecipes, setToggleRecipes] = useState(true);
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await fetch(URL);
-                const data = await response.json();
-                setRecipes(data.results);
-                setOriginalRecipe(data.results);
-                setSliderValue(data.results.length);
-            } catch (error) {
-                console.log("ERROR", error);
-            }
-        }
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         try {
+    //             const response = await fetch(URL);
+    //             const data = await response.json();
+    //             setRecipes(data.results);
+    //             setOriginalRecipe(data.results);
+    //             setSliderValue(data.results.length);
+    //         } catch (error) {
+    //             console.log("ERROR", error);
+    //         }
+    //     }
+    //     fetchData();
+    // }, []);
 
+    async function populateScreen() {
+        try {
+            const response = await fetch(URL);
+            const data = await response.json();
+            console.log(data);
+            setRecipes(data.results);
+            setOriginalRecipe(data.results);
+            setSliderValue(data.results.length);
+        } catch (error) {
+            console.log("ERROR", error);
+        }
+    }
     function handleSearch() {
         const filtered = originalRecipe
             .filter((item) =>
@@ -92,6 +104,13 @@ function App() {
                 {}
 
                 <div className="recipes-container">
+                    <button
+                        onClick={() => {
+                            populateScreen();
+                        }}
+                    >
+                        Populate
+                    </button>
                     <h1>Recipe Menu</h1>
                     {showSearch && (
                         <div className="search-filter-container">
@@ -118,7 +137,10 @@ function App() {
                             />
                             <button
                                 className="search-btn"
-                                onClick={handleSearch}
+                                onClick={() => {
+                                    // handleSearch;
+                                    console.log(originalRecipe);
+                                }}
                             >
                                 Search
                             </button>
