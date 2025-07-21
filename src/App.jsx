@@ -57,9 +57,11 @@ function App() {
         console.log(currentRecipe);
         setToggleRecipes(!toggleRecipes);
     }
+
     function handleToggle() {
         setToggleRecipes(!toggleRecipes);
     }
+
     return (
         <>
             <div className="main-container">
@@ -96,9 +98,10 @@ function App() {
                             <input
                                 type="text"
                                 value={filterSearchInput}
-                                onChange={(e) =>
-                                    setFilterSearchInput(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    setFilterSearchInput(e.target.value);
+                                    handleSearch();
+                                }}
                                 placeholder="search-recipe"
                                 className="recipe-input"
                             />
@@ -110,6 +113,7 @@ function App() {
                                 value={sliderValue || originalRecipe.length}
                                 onChange={(e) => {
                                     setSliderValue(e.target.value);
+                                    handleSearch();
                                 }}
                             />
                             <button
