@@ -4,6 +4,9 @@ import "./App.css";
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 const URL = `https://api.spoonacular.com/recipes/complexSearch?&number=20&apiKey=${ACCESS_KEY}`;
+const URL2 = `https://api.spoonacular.com/recipes/complexSearch?&number=20&apiKey=${ACCESS_KEY}`;
+const URL3 = `https://api.spoonacular.com/recipes/complexSearch?query=pasta&number=10&apiKey=${ACCESS_KEY}`;
+const URL4 = ` https://api.spoonacular.com/recipes/random?number=20&apiKey=${ACCESS_KEY}`;
 
 function App() {
     const [recipe, setRecipes] = useState([]);
@@ -12,6 +15,7 @@ function App() {
     const [sliderValue, setSliderValue] = useState(0);
     const [showSearch, setShowSearch] = useState(true);
     const [currentRecipe, setCurrentRecipe] = useState(null);
+    const [forDashboard, setForDashBoard] = useState(null);
     const [toggleRecipes, setToggleRecipes] = useState(true);
 
     // useEffect(() => {
@@ -31,16 +35,17 @@ function App() {
 
     async function populateScreen() {
         try {
-            const response = await fetch(URL);
+            const response = await fetch(URL4);
             const data = await response.json();
             console.log(data);
-            setRecipes(data.results);
-            setOriginalRecipe(data.results);
-            setSliderValue(data.results.length);
+            setRecipes(data.recipes);
+            setOriginalRecipe(data.recipes);
+            setSliderValue(data.recipes.length);
         } catch (error) {
             console.log("ERROR", error);
         }
     }
+
     function handleSearch() {
         const filtered = originalRecipe
             .filter((item) =>
@@ -112,6 +117,7 @@ function App() {
                         Populate
                     </button>
                     <h1>Recipe Menu</h1>
+                    <DashboardCard recipe={recipe[0]} />
                     {showSearch && (
                         <div className="search-filter-container">
                             <input
@@ -213,6 +219,36 @@ function CardDetails({ details, handleToggle }) {
                 </div>
             </div>
         </>
+    );
+}
+
+function DashboardCard({ recipe }) {
+    console.log(recipe);
+    return (
+        <div className="dashboard-cards">
+            <div className="diets">
+                <h2>Diets placeholder</h2>
+                {recipe?.diets.length === 0 ? (
+                    <>Any type</>
+                ) : (
+                    recipe?.diets?.map((item) => <p>{item}</p>)
+                )}
+            </div>
+            <div className="dishTypes">
+                <h2>Dish types</h2>
+                {recipe?.dishTypes.length === 0 ? (
+                    <p>Any type</p>
+                ) : (
+                    recipe?.dishTypes?.map((item) => <p>{item}</p>)
+                )}
+            </div>
+            <div className="ingredients">
+                <p>ingredients</p>
+            </div>
+            <div className="diets">
+                <p>Diets placeholder</p>
+            </div>
+        </div>
     );
 }
 
