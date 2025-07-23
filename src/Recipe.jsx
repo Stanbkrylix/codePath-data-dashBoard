@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
@@ -6,6 +6,7 @@ const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 function FoodRecipe() {
     const { id } = useParams();
     const [details, setDetails] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchRecipe() {
@@ -26,20 +27,27 @@ function FoodRecipe() {
     if (!details) return <p>Loading...</p>;
 
     return (
-        <div className="card-details">
-            <img src={details.image} alt="" className="card-details-img" />
-            <h2>{details.title}</h2>
-            <div className="instruction-div">
-                <h3>Vegan friendly: {details.vegan ? "Yes" : "No"}</h3>
-                <h3>Gluten free: {details.glutenFree ? "Yes" : "No"}</h3>
-                <h3>Instructions:</h3>
-                {details.analyzedInstructions[0]?.steps.map((item) => (
-                    <p key={item.number}>
-                        Step {item.number}: {item.step}
-                    </p>
-                ))}
+        <>
+            <div className="card-details">
+                <div>
+                    <button className="go-back" onClick={() => navigate("/")}>
+                        ⬅ Go Back
+                    </button>
+                </div>
+                <img src={details.image} alt="" className="card-details-img" />
+                <h2>{details.title}</h2>
+                <div className="instruction-div">
+                    <h3>Vegan friendly: {details.vegan ? "Yes" : "No"}</h3>
+                    <h3>Gluten free: {details.glutenFree ? "Yes" : "No"}</h3>
+                    <h3>Instructions:</h3>
+                    {details.analyzedInstructions[0]?.steps.map((item) => (
+                        <p key={item.number}>
+                            Step {item.number}: {item.step}
+                        </p>
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

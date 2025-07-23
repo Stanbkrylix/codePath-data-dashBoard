@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
-const URL = `https://api.spoonacular.com/recipes/complexSearch?&number=20&apiKey=${ACCESS_KEY}`;
-const URL2 = `https://api.spoonacular.com/recipes/complexSearch?&number=20&apiKey=${ACCESS_KEY}`;
-const URL3 = `https://api.spoonacular.com/recipes/complexSearch?query=pasta&number=10&apiKey=${ACCESS_KEY}`;
 const URL4 = ` https://api.spoonacular.com/recipes/random?number=20&apiKey=${ACCESS_KEY}`;
 
 function App() {
@@ -16,36 +13,25 @@ function App() {
     const [sliderValue, setSliderValue] = useState(0);
     const [showSearch, setShowSearch] = useState(true);
     const [currentRecipe, setCurrentRecipe] = useState(null);
-    const [forDashboard, setForDashBoard] = useState(null);
-    const [toggleRecipes, setToggleRecipes] = useState(true);
+    const [loadRecipes, setLoadRecipes] = useState(true);
 
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         try {
-    //             const response = await fetch(URL);
-    //             const data = await response.json();
-    //             setRecipes(data.results);
-    //             setOriginalRecipe(data.results);
-    //             setSliderValue(data.results.length);
-    //         } catch (error) {
-    //             console.log("ERROR", error);
-    //         }
-    //     }
-    //     fetchData();
-    // }, []);
-
-    async function populateScreen() {
-        try {
-            const response = await fetch(URL4);
-            const data = await response.json();
-            console.log(data);
-            setRecipes(data.recipes);
-            setOriginalRecipe(data.recipes);
-            setSliderValue(data.recipes.length);
-        } catch (error) {
-            console.log("ERROR", error);
+    useEffect(() => {
+        async function fetchData() {
+            setLoadRecipes(false);
+            try {
+                const response = await fetch(URL4);
+                const data = await response.json();
+                console.log(data);
+                setRecipes(data.recipes);
+                setOriginalRecipe(data.recipes);
+                setSliderValue(data.recipes.length);
+                setLoadRecipes(true);
+            } catch (error) {
+                console.log("ERROR", error);
+            }
         }
-    }
+        fetchData();
+    }, []);
 
     function handleSearch() {
         const filtered = originalRecipe
@@ -58,26 +44,15 @@ function App() {
         setRecipes(filtered);
     }
 
-    async function findRecipe(id) {
-        const URL2 = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${ACCESS_KEY}`;
-
-        try {
-            const response = await fetch(URL2);
-            const recipeData = await response.json();
-            setCurrentRecipe(recipeData);
-        } catch (error) {
-            console.log("ERROR, " + error);
-        }
-    }
-
     function displayRecipe(id) {
         findRecipe(id);
         console.log(currentRecipe);
         setToggleRecipes(!toggleRecipes);
     }
 
-    function handleToggle() {
-        setToggleRecipes(!toggleRecipes);
+    function randomRecipe() {
+        const randomNum = Math.floor(Math.random() * recipe.length) + 1;
+        return recipe[randomNum];
     }
 
     return (
@@ -88,7 +63,7 @@ function App() {
                     <button
                         className="home-btn"
                         onClick={() => {
-                            setToggleRecipes((prev) => (prev = true));
+                            // setToggleRecipes((prev) => (prev = true));
                         }}
                     >
                         <img src="/assets/home.svg" alt="" />{" "}
@@ -110,15 +85,8 @@ function App() {
                 {}
 
                 <div className="recipes-container">
-                    <button
-                        onClick={() => {
-                            populateScreen();
-                        }}
-                    >
-                        Populate
-                    </button>
                     <h1>Recipe Menu</h1>
-                    <DashboardCard recipe={recipe[1]} />
+                    <DashboardCard recipe={randomRecipe()} />
                     {showSearch && (
                         <div className="search-filter-container">
                             <input
@@ -153,29 +121,27 @@ function App() {
                             </button>
                         </div>
                     )}
-                    {toggleRecipes ? (
-                        <div className="recipe-cards-container">
-                            {recipe.map((card) => (
+
+                    <div className="recipe-cards-container">
+                        {loadRecipes ? (
+                            recipe.map((card) => (
                                 <Card
                                     key={card.id}
                                     card={card}
                                     displayRecipe={displayRecipe}
                                 />
-                            ))}
-                        </div>
-                    ) : (
-                        <CardDetails
-                            details={currentRecipe}
-                            handleToggle={handleToggle}
-                        />
-                    )}
+                            ))
+                        ) : (
+                            <h1 className="loading">Recipe is Loading...</h1>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
     );
 }
 
-function Card({ card, displayRecipe }) {
+function Card({ card }) {
     const navigate = useNavigate();
 
     return (
@@ -192,36 +158,6 @@ function Card({ card, displayRecipe }) {
                 </button>
             </div>
         </div>
-    );
-}
-
-function CardDetails({ details, handleToggle }) {
-    if (!details) return;
-    return (
-        <>
-            <button
-                style={{ marginBottom: "1rem", cursor: "pointer" }}
-                onClick={handleToggle}
-            >
-                ❌
-            </button>
-            <div className="card-details">
-                <img src={details.image} alt="" className="card-details-img" />
-                <h2>{details.title}</h2>
-                <div className="instruction-div">
-                    <h3>Vegan friendly: {details.vegan ? "Yes" : "No"}</h3>
-                    <h3>Gluten free: {details.gluten ? "Yes" : "No"}</h3>
-                    <h3>Instructions:</h3>
-                    {details.analyzedInstructions[0].steps.map((item) => {
-                        return (
-                            <p key={item.number}>
-                                step {item.number}: {item.step}
-                            </p>
-                        );
-                    })}
-                </div>
-            </div>
-        </>
     );
 }
 

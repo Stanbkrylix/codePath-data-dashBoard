@@ -23,7 +23,7 @@
     width: 21%;
     flex-grow: 1;
     border: 1px solid white;
-    height: 100vh;
+    height: 500px;
 }
 .recipes-container {
     width: 78%;
@@ -169,4 +169,10 @@
 .dishTypes-div::-webkit-scrollbar-thumb {
     background: #d6ad60;
     border-radius: 0.5rem;
+}
+.go-back {
+    margin-bottom: 1rem;
+}
+.loading {
+    text-align: center;
 }
