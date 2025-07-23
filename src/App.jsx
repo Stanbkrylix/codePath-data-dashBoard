@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./App.css";
 
@@ -175,6 +176,8 @@ function App() {
 }
 
 function Card({ card, displayRecipe }) {
+    const navigate = useNavigate();
+
     return (
         <div className="card-recipe">
             <img src={card.image} alt="" className="card-recipe-img" />
@@ -183,7 +186,7 @@ function Card({ card, displayRecipe }) {
                 <p className="card-title">{card.title}</p>
                 <button
                     className="card-info"
-                    onClick={() => displayRecipe(card.id)}
+                    onClick={() => navigate(`/recipe/${card.id}`)}
                 >
                     Details
                 </button>
