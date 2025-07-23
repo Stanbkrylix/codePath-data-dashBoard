@@ -8,10 +8,22 @@ function FoodRecipe() {
     const [details, setDetails] = useState(null);
 
     useEffect(() => {
-        async function fetchRecipe() {}
+        async function fetchRecipe() {
+            try {
+                const res = await fetch(
+                    `https://api.spoonacular.com/recipes/${id}/information?apiKey=${ACCESS_KEY}`
+                );
+                const data = await res.json();
+                setDetails(data);
+            } catch (err) {
+                console.log("Failed to fetch recipe:", err);
+            }
+        }
 
         fetchRecipe();
-    }, []);
+    }, [id]);
+
+    if (!details) return <p>Loading...</p>;
 
     return (
         <div className="card-details">
