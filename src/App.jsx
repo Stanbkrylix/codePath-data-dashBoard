@@ -21,7 +21,7 @@ function App() {
             try {
                 const response = await fetch(URL4);
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 setRecipes(data.recipes);
                 setOriginalRecipe(data.recipes);
                 setSliderValue(data.recipes.length);
@@ -162,7 +162,6 @@ function Card({ card }) {
 }
 
 function DashboardCard({ recipe }) {
-    console.log(recipe);
     return (
         <div className="dashboard-cards">
             <div className="diets-div">
