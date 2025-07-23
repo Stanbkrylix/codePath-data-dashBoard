@@ -128,3 +128,45 @@
     width: 250px;
     height: 250px;
 }
+
+.dashboard-cards {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+.diets-div,
+.dishTypes-div,
+.ingredients-div,
+.picture-div {
+    border: 1px solid white;
+    padding: 0.3rem;
+    width: 140px;
+    height: 200px;
+    border-radius: 0.5rem;
+}
+
+.picture img {
+    width: 100%;
+}
+
+.ingredients-div,
+.dishTypes-div {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.ingredients-div::-webkit-scrollbar,
+.dishTypes-div::-webkit-scrollbar {
+    width: 5px; /* vertical scrollbar width */
+    height: 5px; /* horizontal scrollbar height */
+}
+.ingredients-div::-webkit-scrollbar-track,
+.dishTypes-div::-webkit-scrollbar-track {
+    background: #122620;
+    border-radius: 0.5rem;
+}
+.ingredients-div::-webkit-scrollbar-thumb,
+.dishTypes-div::-webkit-scrollbar-thumb {
+    background: #d6ad60;
+    border-radius: 0.5rem;
+}

@@ -117,7 +117,7 @@ function App() {
                         Populate
                     </button>
                     <h1>Recipe Menu</h1>
-                    <DashboardCard recipe={recipe[0]} />
+                    <DashboardCard recipe={recipe[1]} />
                     {showSearch && (
                         <div className="search-filter-container">
                             <input
@@ -226,27 +226,41 @@ function DashboardCard({ recipe }) {
     console.log(recipe);
     return (
         <div className="dashboard-cards">
-            <div className="diets">
-                <h2>Diets placeholder</h2>
-                {recipe?.diets.length === 0 ? (
-                    <>Any type</>
+            <div className="diets-div">
+                <h2>Name</h2>
+                {recipe?.title === null ? (
+                    <p>Any type</p>
                 ) : (
-                    recipe?.diets?.map((item) => <p>{item}</p>)
+                    <p>{recipe?.title}</p>
                 )}
             </div>
-            <div className="dishTypes">
+            <div className="dishTypes-div">
                 <h2>Dish types</h2>
                 {recipe?.dishTypes.length === 0 ? (
                     <p>Any type</p>
                 ) : (
-                    recipe?.dishTypes?.map((item) => <p>{item}</p>)
+                    recipe?.dishTypes?.map((item, index) => (
+                        <p key={index}>{item}</p>
+                    ))
                 )}
             </div>
-            <div className="ingredients">
-                <p>ingredients</p>
+            <div className="ingredients-div">
+                <h2>Main Ingredients</h2>
+                <div className="ingredients">
+                    {recipe?.extendedIngredients.length === 0 ? (
+                        <p>Any type</p>
+                    ) : (
+                        recipe?.extendedIngredients?.map((item, index) => (
+                            <p key={index}>{item.name}</p>
+                        ))
+                    )}
+                </div>
             </div>
-            <div className="diets">
-                <p>Diets placeholder</p>
+            <div className="picture-div">
+                <h2>Picture</h2>
+                <div className="picture">
+                    <img src={recipe?.image} alt="" />
+                </div>
             </div>
         </div>
     );
